@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Schedule Stories - Agendador Instagram
 
-## Getting Started
+## 🚀 Como Fazer Funcionar
 
-First, run the development server:
+### 1. Configure o Facebook Developers
+
+1. Acesse: https://developers.facebook.com/apps/
+2. Selecione seu app (ou crie um novo)
+3. Adicione **"Facebook Login"**
+4. Em **Facebook Login > Settings**, adicione:
+   ```
+   http://localhost:3000/api/auth/callback/facebook
+   ```
+5. Ative: **Client OAuth Login** e **Web OAuth Login**
+6. Em **Settings > Basic**, copie:
+   - **App ID**
+   - **App Secret**
+
+### 2. Configure o .env.local
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Edite `.env.local`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+DATABASE_URL="file:./dev.db"
+NEXTAUTH_SECRET="BN96vzpfOLyWNFiBrFn7JRhq4VvYO0q09jGa5rTAJOY="
+NEXTAUTH_URL="http://localhost:3000"
+FACEBOOK_CLIENT_ID="seu_app_id_aqui"
+FACEBOOK_CLIENT_SECRET="seu_app_secret_aqui"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Instale e Execute
 
-## Learn More
+```bash
+npm install
+npm run prisma:migrate
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Acesse: http://localhost:3000
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ⚠️ Importante
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Instagram Basic Display foi descontinuada!**
 
-## Deploy on Vercel
+Agora usa:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Facebook Login para autenticar
+- Usuários precisam de conta Instagram Business/Creator
+- Instagram deve estar conectado a uma Página do Facebook
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 Stack
+
+- Next.js 16
+- NextAuth.js v5 (Facebook Login)
+- Prisma + SQLite
+- ShadCN UI
+- Tailwind CSS v4
+
+## 🔧 Scripts
+
+```bash
+npm run dev              # Desenvolvimento
+npm run build            # Build
+npm run prisma:studio    # Ver banco de dados
+npm run prisma:migrate   # Migrar banco
+```
+
+## 📝 Estrutura
+
+```
+app/
+├── actions/          # Server actions
+├── api/auth/        # AuthJS routes
+├── dashboard/       # Dashboard (protegido)
+└── login/           # Login page
+
+auth.ts              # Configuração AuthJS
+middleware.ts        # Proteção de rotas
+```
+
+---
+
+**Desenvolvido com Next.js + Facebook Login + Instagram Graph API**
